@@ -577,11 +577,6 @@ const offerItems = [
     desc: "Offsetowa metoda drukowania — wysoka jakość wydruków w dużych nakładach. Im więcej drukujesz, tym mniej płacisz.",
   },
   {
-    image: wnioskiImg, // Wnioski.jpg
-    title: "Druki",
-    desc: "Wydruk wszystkich niezbędnych druków do prowadzenia firmy na papierze samokopiującym.",
-  },
-  {
     image: pieczatkiImg, // Pieczątki.png
     title: "Pieczątki",
     desc: "Pieczątki w różnych wielkościach i kształtach — z mechanizmem automatycznym i tradycyjne.",
