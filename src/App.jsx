@@ -1,7 +1,5 @@
 import { useState } from 'react'
-import AWADruk from './AwaDrukV1.jsx'
-import AWADrukV2 from './AWADrukV2.jsx'
-import AWADrukV3 from './AWADrukV3_clean.jsx'
+import AWADruk from './AwaDrukV1_lightA.jsx'
 
 const css = `
   .switcher {
@@ -29,42 +27,9 @@ const css = `
 `
 
 export default function App() {
-  const getVersion = () => {
-    const p = new URLSearchParams(window.location.search)
-    const v = parseInt(p.get('v'))
-    return [1, 2, 3].includes(v) ? v : 1
-  }
-
-  const [version, setVersion] = useState(getVersion)
-
-  const switchTo = (v) => {
-    const url = new URL(window.location)
-    url.searchParams.set('v', v)
-    window.history.pushState({}, '', url)
-    setVersion(v)
-    window.scrollTo({ top: 0 })
-  }
-
   return (
     <>
-      <style>{css}</style>
-
-      {version === 1 && <AWADruk />}
-      {version === 2 && <AWADrukV2 />}
-      {version === 3 && <AWADrukV3 />}
-
-      <div className="switcher">
-        <span className="switcher-label">Wersja</span>
-        {[1, 2, 3].map(v => (
-          <button
-            key={v}
-            className={`switcher-btn${version === v ? ' active' : ''}`}
-            onClick={() => switchTo(v)}
-          >
-            V{v}
-          </button>
-        ))}
-      </div>
+      <AWADruk />
     </>
   )
 }
