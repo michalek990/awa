@@ -380,7 +380,7 @@ const css = `
     display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
   }
   .about-features {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px;
   }
   .about-feat {
     background: #eef3fa; border: 1px solid #c8d8ec;
@@ -686,6 +686,107 @@ const offerItems = [
   },
 ];
 
+// ── LEAFLET MAP — dwie pinezki ──────────────────────────────
+function LeafletMap() {
+  const mapRef = useRef(null);
+  const instanceRef = useRef(null);
+
+  useEffect(() => {
+    if (instanceRef.current) return; // już zainicjalizowana
+
+    // Wczytaj CSS Leaflet
+    if (!document.getElementById("leaflet-css")) {
+      const link = document.createElement("link");
+      link.id = "leaflet-css";
+      link.rel = "stylesheet";
+      link.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
+      document.head.appendChild(link);
+    }
+
+    // Wczytaj JS Leaflet
+    const loadLeaflet = () => {
+      if (window.L) {
+        initMap();
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
+      script.onload = initMap;
+      document.head.appendChild(script);
+    };
+
+    const initMap = () => {
+      const L = window.L;
+
+      // Środek między dwoma punktami
+      const map = L.map(mapRef.current, {
+        center: [51.7836, 22.6195],
+        zoom: 15,
+        scrollWheelZoom: false,
+      });
+      instanceRef.current = map;
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        maxZoom: 19,
+      }).addTo(map);
+
+      // Własna ikona pinezki
+      const pinIcon = (color) => L.divIcon({
+        className: "",
+        html: `<div style="
+          width:32px;height:40px;position:relative;
+        ">
+          <svg viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;filter:drop-shadow(0 3px 6px rgba(0,0,0,0.3))">
+            <path d="M16 0C9.373 0 4 5.373 4 12c0 9 12 28 12 28S28 21 28 12C28 5.373 22.627 0 16 0z" fill="${color}"/>
+            <circle cx="16" cy="12" r="5" fill="white"/>
+          </svg>
+        </div>`,
+        iconSize: [32, 40],
+        iconAnchor: [16, 40],
+        popupAnchor: [0, -42],
+      });
+
+      // Pinezka 1 — Biuro ul. Dąbrowskiego 4a
+      L.marker([51.78455, 22.61820], { icon: pinIcon("#3d5a78") })
+        .addTo(map)
+        .bindPopup(`
+          <div style="font-family:'Lato',sans-serif;padding:4px 2px;min-width:180px">
+            <strong style="color:#3d5a78;font-size:13px">🏢 Biuro AWA-DRUK</strong><br/>
+            <span style="font-size:12px;color:#444">ul. Dąbrowskiego 4a<br/>21-300 Radzyń Podlaski</span>
+          </div>
+        `)
+        .openPopup();
+
+      // Pinezka 2 — Drukarnia ul. Zielona 22a
+      L.marker([51.78185, 22.62180], { icon: pinIcon("#c0392b") })
+        .addTo(map)
+        .bindPopup(`
+          <div style="font-family:'Lato',sans-serif;padding:4px 2px;min-width:180px">
+            <strong style="color:#c0392b;font-size:13px">🏭 Drukarnia AWA-DRUK</strong><br/>
+            <span style="font-size:12px;color:#444">ul. Zielona 22a<br/>21-300 Radzyń Podlaski</span>
+          </div>
+        `);
+    };
+
+    loadLeaflet();
+
+    return () => {
+      if (instanceRef.current) {
+        instanceRef.current.remove();
+        instanceRef.current = null;
+      }
+    };
+  }, []);
+
+  return (
+    <div
+      ref={mapRef}
+      style={{ width: "100%", height: "400px", borderRadius: "12px", zIndex: 1 }}
+    />
+  );
+}
+
 export default function AWADruk() {
   const [activeNav, setActiveNav] = useState("start");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -719,8 +820,8 @@ export default function AWADruk() {
           {[
             { id: "start", label: "Start" },
             { id: "oferta", label: "Oferta" },
-            { id: "jak-zamowic", label: "Jak zamówić" },
             { id: "o-nas", label: "O nas" },
+            { id: "jak-zamowic", label: "Jak zamówić" },
             { id: "kontakt", label: "Kontakt" },
           ].map(({ id, label }) => (
             <li key={id}>
@@ -915,18 +1016,13 @@ export default function AWADruk() {
               <em>z tradycją</em>
             </h2>
             <p className="section-sub">
-              Jesteśmy nowoczesną drukarnią z ponad 20-letnim doświadczeniem.
+              Jesteśmy nowoczesną drukarnią z ponad 25-letnim doświadczeniem.
               Wykonujemy coraz poważniejsze zlecenia, podejmujemy wyzwania.
               Stale unowocześniamy park maszyn i inwestujemy w doświadczonych
               fachowców.
             </p>
             <div className="about-features">
               {[
-                {
-                  icon: "🔬",
-                  title: "Najwyższy sprzęt",
-                  text: "Maszyny CTP Cobalt 4, naświetlarka 400 linii/sek, format do 675×480 mm.",
-                },
                 {
                   icon: "🎨",
                   title: "CMYK & PANTONE",
@@ -1044,17 +1140,9 @@ export default function AWADruk() {
                 </div>
               ))}
             </div>
-            {/* MAP SLOT — replace with Google Maps embed <iframe> */}
+            {/* MAPA LEAFLET — dwie pinezki */}
             <div className="map-slot">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2468.2572437181!2d22.617978!3d51.783184!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x472219311e3c247f%3A0x52df1f0563242d7f!2sAwa-Druk.%20Zak%C5%82ad%20poligraficzny!5e0!3m2!1spl!2spl!4v1700000000000!5m2!1spl!2spl"
-                width="100%"
-                height="400"
-                style={{ border: 0, borderRadius: "12px" }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              <LeafletMap />
             </div>
           </div>
 
