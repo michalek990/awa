@@ -15,12 +15,12 @@ import wnioskiImg from "./assets/Wnioski.jpg";
 import logoImg from "./assets/logo-bgrm.png";
 import wizytowkiImg from "./assets/Wizytówki.jpg";
 import koszulkiImg from "./assets/Koszulki.jpg";
-import tabliczkiImg from "./assets/Tabliczki.jpg";
 import teczkiImg from "./assets/Teczki.jpg";
 import torbyImg from "./assets/Torby reklamowe.png";
 import kubekImg from "./assets/kubek.jpg"
 import kartonikImg from "./assets/opakowanie.jpg"
-
+import cyfraImg from "./assets/cyfra.jpg"
+import drukarniaImg from "./assets/drukarnia.jpg"
 // ══════════════════════════════════════════════════════
 //  WARIANT A — jasny motyw
 //  #BCCCE6 niebieskawa stal  |  #E6D6BC kremowo-piaskowy
@@ -202,7 +202,8 @@ const css = `
   }
   .hero-inner {
     max-width: 1140px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 60px; align-items: center;
     position: relative; z-index: 1;
   }
   .hero-badge {
@@ -222,40 +223,25 @@ const css = `
   .hero h1 em { font-style: normal; color: #e6d6bc; }
   .hero-desc {
     font-size: 16px; color: rgba(255,255,255,0.75); line-height: 1.75;
-    margin-bottom: 36px; max-width: 450px;
+    margin-bottom: 48px; max-width: 620px;
   }
-  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+  .hero-btns { display: flex; flex-direction: column; gap: 16px; align-items: stretch; min-width: 260px; }
   .btn-white {
     background: #e6d6bc; color: #26211a;
-    padding: 13px 26px; border-radius: 10px;
-    font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 14px;
+    padding: 22px 48px; border-radius: 14px;
+    font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 20px;
     transition: all 0.25s; box-shadow: 0 4px 20px rgba(0,0,0,0.14);
-    display: inline-block;
+    display: block; text-align: center;
   }
   .btn-white:hover { background: #f0e4cc; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.18); }
   .btn-ghost {
     background: transparent; color: #fff;
-    padding: 13px 26px; border-radius: 10px;
-    font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 14px;
+    padding: 22px 48px; border-radius: 14px;
+    font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 20px;
     border: 2px solid rgba(255,255,255,0.35); transition: all 0.25s;
-    display: inline-block;
+    display: block; text-align: center;
   }
   .btn-ghost:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); }
-
-  /* ── HERO CARDS ── */
-  .hero-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .hero-card {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 16px; padding: 22px 18px;
-    backdrop-filter: blur(8px);
-    transition: transform 0.3s, background 0.3s;
-  }
-  .hero-card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.18); }
-  .hero-card.wide { grid-column: span 2; }
-  .hero-card-emoji { font-size: 30px; margin-bottom: 10px; display: block; }
-  .hero-card h3 { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-  .hero-card p { font-size: 12px; color: rgba(255,255,255,0.62); line-height: 1.5; }
 
   /* ── STATS ── */
   .stats { background: #e6d6bc; padding: 48px 6%; border-bottom: 1px solid #d8ccba; }
@@ -410,10 +396,10 @@ const css = `
   .about-img-wrap { position: relative; }
   .about-img-slot {
     background: #e6d6bc; border-radius: 20px;
-    aspect-ratio: 4/3; border: 2px dashed #c9b898;
+    aspect-ratio: 3/2; border: 2px dashed #c9b898;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    font-size: 70px;
+    font-size: 70px; overflow: hidden;
   }
   .about-img-slot-label { font-size: 11px; color: #9a8a74; margin-top: 10px; letter-spacing: 0.5px; }
   .about-badge {
@@ -445,11 +431,8 @@ const css = `
   .contact-item a:hover { text-decoration: underline; }
   .contact-divider { border: none; border-top: 1px solid #ddd4c4; margin: 20px 0; }
   .map-slot {
-    background: #e6d6bc; border-radius: 14px; height: 180px;
-    border: 2px dashed #c9b898; margin-top: 22px;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    font-size: 30px; color: #9a8a74;
+    border-radius: 14px; margin-top: 22px;
+    overflow: hidden;
   }
   .map-slot p { font-size: 11px; color: #9a8a74; margin-top: 6px; letter-spacing: 0.5px; }
 
@@ -505,6 +488,67 @@ const css = `
   .footer-inner a { color: rgba(255,255,255,0.45); font-size: 13px; }
   .footer-inner a:hover { color: #e6d6bc; }
 
+  /* ── HAMBURGER ── */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px; height: 40px;
+    padding: 6px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: none; border: none;
+    transition: background 0.2s;
+  }
+  .nav-hamburger:hover { background: rgba(188,204,230,0.35); }
+  .nav-hamburger span {
+    display: block;
+    height: 2px; width: 100%;
+    background: #3d5a78;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav-mobile-menu {
+    position: fixed;
+    top: 76px; left: 0; right: 0;
+    background: rgba(250,247,242,0.97);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(61,90,120,0.1);
+    box-shadow: 0 8px 32px rgba(61,90,120,0.12);
+    padding: 16px 6% 24px;
+    z-index: 199;
+    display: flex; flex-direction: column; gap: 4px;
+    transform: translateY(-110%);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease;
+    pointer-events: none;
+  }
+  .nav-mobile-menu.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .nav-mobile-menu a {
+    display: block;
+    padding: 13px 16px;
+    border-radius: 10px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px; font-weight: 600;
+    color: #6e6558;
+    transition: all 0.2s;
+  }
+  .nav-mobile-menu a:hover,
+  .nav-mobile-menu a.active {
+    background: #bccce6;
+    color: #26211a;
+  }
+
   /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(22px); }
@@ -523,17 +567,19 @@ const css = `
   }
   @media (max-width: 860px) {
     .hero-inner { grid-template-columns: 1fr; }
-    .hero-cards { display: none; }
+    .hero-btns { flex-direction: row; flex-wrap: wrap; min-width: unset; }
     .about-inner, .contact-inner { grid-template-columns: 1fr; }
     .steps-grid { grid-template-columns: repeat(2,1fr); }
     .steps-connector { display: none; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
   }
   @media (max-width: 600px) {
     .offer-grid, .steps-grid { grid-template-columns: 1fr; }
     .stats-inner { grid-template-columns: 1fr 1fr; }
     .form-row { grid-template-columns: 1fr; }
-    .nav-links a { padding: 6px 10px; font-size: 13px; }
     .contact-form { padding: 24px; }
+    .btn-white, .btn-ghost { font-size: 16px; padding: 16px 28px; }
   }
 `;
 
@@ -549,7 +595,7 @@ const offerItems = [
     desc: "Wizytówki, ulotki, plakaty, koperty, kalendarze, naklejki, notesy, broszury — w różnych formatach.",
   },
   {
-    image: maszynaImg, // Maszyna.png
+    image: cyfraImg, // Maszyna.png
     title: "Druk cyfrowy",
     desc: "Możliwość wydrukowania wielu rzeczy w wysokiej jakości przy małym nakładzie.",
   },
@@ -642,6 +688,12 @@ const offerItems = [
 
 export default function AWADruk() {
   const [activeNav, setActiveNav] = useState("start");
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleNav = (id) => {
+    setActiveNav(id);
+    setMenuOpen(false);
+  };
 
   return (
     <>
@@ -675,14 +727,42 @@ export default function AWADruk() {
               <a
                 href={`#${id}`}
                 className={activeNav === id ? "active" : ""}
-                onClick={() => setActiveNav(id)}
+                onClick={() => handleNav(id)}
               >
                 {label}
               </a>
             </li>
           ))}
         </ul>
+
+        <button
+          className={`nav-hamburger${menuOpen ? " open" : ""}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Menu"
+        >
+          <span /><span /><span />
+        </button>
       </nav>
+
+      {/* MOBILE MENU */}
+      <div className={`nav-mobile-menu${menuOpen ? " open" : ""}`}>
+        {[
+          { id: "start", label: "Start" },
+          { id: "oferta", label: "Oferta" },
+          { id: "o-nas", label: "O nas" },
+          { id: "jak-zamowic", label: "Jak zamówić" },
+          { id: "kontakt", label: "Kontakt" },
+        ].map(({ id, label }) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            className={activeNav === id ? "active" : ""}
+            onClick={() => handleNav(id)}
+          >
+            {label}
+          </a>
+        ))}
+      </div>
 
       {/* HERO */}
       <div id="start">
@@ -692,7 +772,7 @@ export default function AWADruk() {
           <div className="hero-inner">
             <div>
               <span className="hero-badge anim">
-                Ponad 20 lat doświadczenia
+                Ponad 25 lat doświadczenia
               </span>
               <h1 className="anim d1">
                 Twoja drukarnia
@@ -703,62 +783,25 @@ export default function AWADruk() {
                 wielkoformatowe banery. Stale inwestujemy w nowe technologie i
                 sprzęt najwyższej jakości.
               </p>
-              <div className="hero-btns anim d3">
-                <a
-                  href="#oferta"
-                  className="btn-white"
-                  onClick={() => setActiveNav("oferta")}
-                >
-                  Zobacz ofertę →
-                </a>
-                <a
-                  href="#kontakt"
-                  className="btn-ghost"
-                  onClick={() => setActiveNav("kontakt")}
-                >
-                  Skontaktuj się
-                </a>
-              </div>
             </div>
-            <div className="hero-cards anim d4">
-              <div className="hero-card wide">
-                <span className="hero-card-emoji">🖨️</span>
-                <h3>Druk offsetowy i cyfrowy</h3>
-                <p>
-                  Wysoka jakość zarówno w małym, jak i dużym nakładzie. CMYK
-                  oraz PANTONE.
-                </p>
-              </div>
-              <div className="hero-card">
-                <span className="hero-card-emoji">🎁</span>
-                <h3>Gadżety reklamowe</h3>
-                <p>Nadruki na kubkach, długopisach i więcej.</p>
-              </div>
-              <div className="hero-card">
-                <span className="hero-card-emoji">🚗</span>
-                <h3>Nadruki na pojazdy</h3>
-                <p>Oklejanie i wydruk na samochodach firmowych.</p>
-              </div>
+            <div className="hero-btns anim d3">
+              <a
+                href="#oferta"
+                className="btn-white"
+                onClick={() => setActiveNav("oferta")}
+              >
+                Zobacz ofertę →
+              </a>
+              <a
+                href="#kontakt"
+                className="btn-ghost"
+                onClick={() => setActiveNav("kontakt")}
+              >
+                Skontaktuj się
+              </a>
             </div>
           </div>
         </section>
-      </div>
-
-      {/* STATS */}
-      <div className="stats">
-        <div className="stats-inner">
-          {[
-            { num: "20+", label: "lat doświadczenia" },
-            { num: "675×480", label: "mm format arkusza" },
-            { num: "400", label: "linii/sek naświetlarka" },
-            { num: "300 dpi", label: "rozdzielczość min." },
-          ].map((s, i) => (
-            <div className="stat" key={i}>
-              <div className="stat-num">{s.num}</div>
-              <div className="stat-label">{s.label}</div>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* OFFER */}
@@ -835,7 +878,7 @@ export default function AWADruk() {
               {
                 emoji: "⏳",
                 title: "Poczekaj na wydruk",
-                text: "Czas realizacji to 5 dni roboczych. Powiadomimy Cię o zakończeniu prac.",
+                text: "Czas realizacji do 1 do 5 dni roboczych. Powiadomimy Cię o zakończeniu prac.",
               },
               {
                 emoji: "📦",
@@ -897,7 +940,7 @@ export default function AWADruk() {
                 {
                   icon: "⚡",
                   title: "Ekspresowe terminy",
-                  text: "Realizacja od 5 dni roboczych. Informujemy na bieżąco.",
+                  text: "Realizacja 1 do 5 dni roboczych. Informujemy na bieżąco.",
                 },
               ].map((f, i) => (
                 <div className="about-feat" key={i}>
@@ -911,11 +954,10 @@ export default function AWADruk() {
           <div className="about-img-wrap">
             {/* IMAGE SLOT — replace with <img src="..." style={{width:'100%',borderRadius:'20px',display:'block'}} /> */}
             <div className="about-img-slot">
-              🏭
-              <span className="about-img-slot-label">zdjęcie drukarni</span>
-            </div>
+              <img src={drukarniaImg} alt="AWA-DRUK drukarnia" style={{width:'100%', borderRadius:'20px',display:'block'}}/>
+         </div>
             <div className="about-badge">
-              <span className="about-badge-num">20+</span>
+              <span className="about-badge-num">25</span>
               <span className="about-badge-text">lat w branży</span>
             </div>
           </div>
@@ -1005,10 +1047,10 @@ export default function AWADruk() {
             {/* MAP SLOT — replace with Google Maps embed <iframe> */}
             <div className="map-slot">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2468.25724371814!2d22.6179785777479!3d51.783184471877505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x472219311e3c247f%3A0x52df1f0563242d7f%3A0x52df1f0563242d7f!2sAwa-Druk.%20Zak%C5%82ad%20poligraficzny!5e0!3m2!1spl!2spl!4v1772196715601!5m2!1spl!2spl"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2468.2572437181!2d22.617978!3d51.783184!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x472219311e3c247f%3A0x52df1f0563242d7f!2sAwa-Druk.%20Zak%C5%82ad%20poligraficzny!5e0!3m2!1spl!2spl!4v1700000000000!5m2!1spl!2spl"
                 width="100%"
                 height="400"
-                style={{ border: 0 }}
+                style={{ border: 0, borderRadius: "12px" }}
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
