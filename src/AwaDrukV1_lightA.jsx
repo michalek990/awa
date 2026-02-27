@@ -720,8 +720,8 @@ function LeafletMap() {
 
       // Środek między dwoma punktami
       const map = L.map(mapRef.current, {
-        center: [51.7836, 22.6195],
-        zoom: 15,
+        center: [51.7752, 22.6210],
+        zoom: 13,
         scrollWheelZoom: false,
       });
       instanceRef.current = map;
@@ -748,18 +748,17 @@ function LeafletMap() {
       });
 
       // Pinezka 1 — Biuro ul. Dąbrowskiego 4a
-      L.marker([51.78455, 22.61820], { icon: pinIcon("#3d5a78") })
+      const marker1 = L.marker([51.78455, 22.61820], { icon: pinIcon("#3d5a78") })
         .addTo(map)
         .bindPopup(`
           <div style="font-family:'Lato',sans-serif;padding:4px 2px;min-width:180px">
             <strong style="color:#3d5a78;font-size:13px">🏢 Biuro AWA-DRUK</strong><br/>
             <span style="font-size:12px;color:#444">ul. Dąbrowskiego 4a<br/>21-300 Radzyń Podlaski</span>
           </div>
-        `)
-        .openPopup();
+        `);
 
       // Pinezka 2 — Drukarnia ul. Zielona 22a
-      L.marker([51.78185, 22.62180], { icon: pinIcon("#c0392b") })
+      const marker2 = L.marker([51.76669, 22.62356], { icon: pinIcon("#c0392b") })
         .addTo(map)
         .bindPopup(`
           <div style="font-family:'Lato',sans-serif;padding:4px 2px;min-width:180px">
@@ -767,6 +766,10 @@ function LeafletMap() {
             <span style="font-size:12px;color:#444">ul. Zielona 22a<br/>21-300 Radzyń Podlaski</span>
           </div>
         `);
+
+      // Auto-dopasuj widok do obu pinezek z marginesem
+      const group = L.featureGroup([marker1, marker2]);
+      map.fitBounds(group.getBounds().pad(0.25));
     };
 
     loadLeaflet();
@@ -1016,7 +1019,7 @@ export default function AWADruk() {
               <em>z tradycją</em>
             </h2>
             <p className="section-sub">
-              Jesteśmy nowoczesną drukarnią z ponad 25-letnim doświadczeniem.
+              Jesteśmy nowoczesną drukarnią z ponad 20-letnim doświadczeniem.
               Wykonujemy coraz poważniejsze zlecenia, podejmujemy wyzwania.
               Stale unowocześniamy park maszyn i inwestujemy w doświadczonych
               fachowców.
@@ -1102,8 +1105,7 @@ export default function AWADruk() {
               <div className="contact-item">
                 <span className="contact-item-icon">⚙️</span>
                 <span>
-                  Naświetlarka CTP, druk offsetowy, maszyna arkuszowa 675×480
-                  mm.
+                 Druk offsetowy, druk cyfrowy, druk wielkoformatowy, druk UV, oprawy introligatorskie.
                 </span>
               </div>
             </div>
