@@ -719,8 +719,8 @@ export default function AWADruk() {
           {[
             { id: "start", label: "Start" },
             { id: "oferta", label: "Oferta" },
-            { id: "o-nas", label: "O nas" },
             { id: "jak-zamowic", label: "Jak zamówić" },
+            { id: "o-nas", label: "O nas" },
             { id: "kontakt", label: "Kontakt" },
           ].map(({ id, label }) => (
             <li key={id}>
