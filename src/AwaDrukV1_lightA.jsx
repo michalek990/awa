@@ -18,6 +18,8 @@ import koszulkiImg from "./assets/Koszulki.jpg";
 import tabliczkiImg from "./assets/Tabliczki.jpg";
 import teczkiImg from "./assets/Teczki.jpg";
 import torbyImg from "./assets/Torby reklamowe.png";
+import kubekImg from "./assets/kubek.jpg"
+import kartonikImg from "./assets/opakowanie.jpg"
 
 // ══════════════════════════════════════════════════════
 //  WARIANT A — jasny motyw
@@ -537,7 +539,7 @@ const css = `
 
 const offerItems = [
   {
-    image: grawerImg, // grawer.jpg
+    image: kubekImg, // grawer.jpg
     title: "Gadzety reklamowe",
     desc: "Grawer laserowa na długopisach, nadruki na kubkach, smyczach i wielu innych. Obdaruj klientów gadżetem z Twoim logo!",
   },
@@ -554,7 +556,7 @@ const offerItems = [
   {
     image: autoImg, // Auto.png
     title: "Oklejanie samochodów firmowych oraz okien witrynowych wraz z montażem.",
-    desc: "Naklejki w dowolnym formacie i nakładzie – trwałe, estetyczne i dopasowane do Twoich potrzeb.",
+    desc: "",
   },
   {
     image: ksiazkiImg, // Książki.jpg
@@ -592,7 +594,7 @@ const offerItems = [
     desc: "Różne typy kalendarzy: wiszące, trójdzielne, na biurko, planszowe i w sprężynie — w wybranej tematyce.",
   },
   {
-    image: opakowaniaImg, // Opakowania.jpg
+    image: kartonikImg, // Opakowania.jpg
     title: "Opakowania",
     desc: "Produkujemy opakowania dopasowane do Twojego produktu – estetyczne, trwałe i funkcjonalne.",
   },
@@ -607,7 +609,7 @@ const offerItems = [
     desc: "Tworzymy eleganckie zaproszenia na każdą okazję – ślubne, komunijne, urodzinowe i firmowe. Oferujemy wysokiej jakości druk oraz uszlachetnienia, w tym efektowne złocenie, które nadaje wyjątkowy i prestiżowy charakter.",
   },
   {
-    image: tabliczkiImg, // Tabliczki.jpg
+    image: grawerImg, // Tabliczki.jpg
     title: "Tabliczki informacyjne",
     desc: "Różnego rodzaju tabliczki informacyjne czy znamionowe metodą grawerowania laserowego.",
   },
@@ -617,7 +619,7 @@ const offerItems = [
     desc: "Dowolne nadruki na dobrej jakości koszulkach.",
   },
   {
-    image: rolandImg, // roland (2).png
+    image: etuiImg, // roland (2).png
     title: "Druk UV",
     desc: "Nowoczesna technologia zapewniająca intensywne kolory, wysoką trwałość i odporność na ścieranie oraz warunki atmosferyczne. Drukujemy na różnych podłożach (papier, folia, płyty, tworzywa), z możliwością zastosowania lakieru wybiórczego.",
   },
@@ -632,7 +634,7 @@ const offerItems = [
     desc: "Wykonujemy je z wysokiej jakości kartonu, z możliwością foliowania, lakieru UV lub złocenia.",
   },
   {
-    image: etuiImg, // Etui.jpg
+    image: opakowaniaImg, // Etui.jpg
     title: "Etykiety w różnych formatach i kształtach",
     desc: "Papierowe oraz foliowe, odporne na wilgoć i ścieranie.",
   },
