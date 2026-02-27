@@ -474,6 +474,28 @@ const css = `
     box-shadow: 0 8px 28px rgba(61,90,120,0.3);
   }
 
+  /* ── FLOATING FACEBOOK ── */
+  .fb-float {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 999;
+    width: 52px; height: 52px;
+    background: #1877f2;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(24,119,242,0.45);
+    transition: transform 0.25s, box-shadow 0.25s;
+    text-decoration: none;
+  }
+  .fb-float:hover {
+    transform: translateY(-4px) scale(1.08);
+    box-shadow: 0 10px 32px rgba(24,119,242,0.55);
+  }
+  .fb-float svg {
+    width: 28px; height: 28px; fill: #fff;
+  }
+
   /* ── FOOTER ── */
   .footer {
     background: #3d5a78; color: rgba(255,255,255,0.65);
@@ -721,7 +743,7 @@ function LeafletMap() {
       // Środek między dwoma punktami
       const map = L.map(mapRef.current, {
         center: [51.7752, 22.6210],
-        zoom: 13,
+        zoom: 12,
         scrollWheelZoom: false,
       });
       instanceRef.current = map;
@@ -767,9 +789,7 @@ function LeafletMap() {
           </div>
         `);
 
-      // Auto-dopasuj widok do obu pinezek z marginesem
-      const group = L.featureGroup([marker1, marker2]);
-      map.fitBounds(group.getBounds().pad(0.25));
+      marker1.openPopup();
     };
 
     loadLeaflet();
@@ -794,9 +814,49 @@ export default function AWADruk() {
   const [activeNav, setActiveNav] = useState("start");
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // ── FORMULARZ ──
+  const [formData, setFormData] = useState({ from_name: "", from_email: "", subject: "", phone: "", message: "" });
+  const [formStatus, setFormStatus] = useState("idle"); // idle | sending | success | error
+
   const handleNav = (id) => {
     setActiveNav(id);
     setMenuOpen(false);
+  };
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = () => {
+    if (!formData.from_name || !formData.from_email || !formData.message) {
+      alert("Wypełnij przynajmniej imię, e-mail i treść wiadomości.");
+      return;
+    }
+    setFormStatus("sending");
+
+    // Załaduj EmailJS jeśli jeszcze nie jest
+    const send = () => {
+      window.emailjs.send(
+        "service_3t4l1uk",
+        "template_jvvdq2l",
+        { ...formData },
+        "i1026PpWjpkua6hc2"
+      ).then(() => {
+        setFormStatus("success");
+        setFormData({ from_name: "", from_email: "", subject: "", phone: "", message: "" });
+      }).catch(() => {
+        setFormStatus("error");
+      });
+    };
+
+    if (window.emailjs) {
+      send();
+    } else {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js";
+      script.onload = () => { window.emailjs.init("i1026PpWjpkua6hc2"); send(); };
+      document.head.appendChild(script);
+    }
   };
 
   return (
@@ -1105,7 +1165,8 @@ export default function AWADruk() {
               <div className="contact-item">
                 <span className="contact-item-icon">⚙️</span>
                 <span>
-                 Druk offsetowy, druk cyfrowy, druk wielkoformatowy, druk UV, oprawy introligatorskie.
+                  Naświetlarka CTP, druk offsetowy, maszyna arkuszowa 675×480
+                  mm.
                 </span>
               </div>
             </div>
@@ -1154,28 +1215,62 @@ export default function AWADruk() {
             <div className="form-row">
               <div className="form-field">
                 <label>Imię i nazwisko</label>
-                <input type="text" placeholder="Jan Kowalski" />
+                <input
+                  type="text" name="from_name" placeholder="Jan Kowalski"
+                  value={formData.from_name} onChange={handleChange}
+                />
               </div>
               <div className="form-field">
                 <label>Adres e-mail</label>
-                <input type="email" placeholder="jan@firma.pl" />
+                <input
+                  type="email" name="from_email" placeholder="jan@firma.pl"
+                  value={formData.from_email} onChange={handleChange}
+                />
               </div>
             </div>
             <div className="form-row">
               <div className="form-field">
                 <label>Temat</label>
-                <input type="text" placeholder="Wycena ulotki A5" />
+                <input
+                  type="text" name="subject" placeholder="Wycena ulotki A5"
+                  value={formData.subject} onChange={handleChange}
+                />
               </div>
               <div className="form-field">
                 <label>Telefon</label>
-                <input type="tel" placeholder="+48 000 000 000" />
+                <input
+                  type="tel" name="phone" placeholder="+48 000 000 000"
+                  value={formData.phone} onChange={handleChange}
+                />
               </div>
             </div>
             <div className="form-field">
               <label>Treść wiadomości</label>
-              <textarea placeholder="Opisz swoje zamówienie lub zapytanie..." />
+              <textarea
+                name="message" placeholder="Opisz swoje zamówienie lub zapytanie..."
+                value={formData.message} onChange={handleChange}
+              />
             </div>
-            <button className="btn-send">Wyślij wiadomość →</button>
+
+            {formStatus === "success" && (
+              <div style={{ background: "#e8f5e9", border: "1px solid #a5d6a7", borderRadius: "10px", padding: "12px 16px", marginBottom: "14px", color: "#2e7d32", fontSize: "14px", fontWeight: 600 }}>
+                ✅ Wiadomość wysłana! Odezwiemy się wkrótce.
+              </div>
+            )}
+            {formStatus === "error" && (
+              <div style={{ background: "#ffebee", border: "1px solid #ef9a9a", borderRadius: "10px", padding: "12px 16px", marginBottom: "14px", color: "#c62828", fontSize: "14px", fontWeight: 600 }}>
+                ❌ Błąd wysyłania. Spróbuj ponownie lub zadzwoń do nas.
+              </div>
+            )}
+
+            <button
+              className="btn-send"
+              onClick={handleSubmit}
+              disabled={formStatus === "sending"}
+              style={{ opacity: formStatus === "sending" ? 0.7 : 1, cursor: formStatus === "sending" ? "not-allowed" : "pointer" }}
+            >
+              {formStatus === "sending" ? "Wysyłanie..." : "Wyślij wiadomość →"}
+            </button>
           </div>
         </div>
       </section>
@@ -1196,6 +1291,19 @@ export default function AWADruk() {
           </a>
         </div>
       </footer>
+      {/* FLOATING FACEBOOK */}
+      <a
+        href="https://www.facebook.com/share/1WYCQDTpt9/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fb-float"
+        aria-label="Facebook AWA-DRUK"
+      >
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+        </svg>
+      </a>
+
     </>
   );
 }
